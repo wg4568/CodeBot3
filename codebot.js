@@ -334,13 +334,16 @@ function CompileEvaluate(tokens) {
 
 function CompileStatements(statements) {
 	var source_pragmas = "";
-	var source_constants = "/* Compiled from CodeBot3, language by William Gardner of Team 6374 */\n";
+	var source_constants = ""
 	var source_functions = "";
 	var source_inputs = "";
 	var source_main_init = "";
 	var source_main_start = "";
 	var source_main_mid = "";
 	var source_main_end = "";
+	
+	source_constants += "/* Compiled from CodeBot3, language by William Gardner of Team 6374 */\n";
+	source_constants += "/* For more info, see https://github.com/wg4568/CodeBot3 */\n";
 
 	statements.forEach(function(statement) {
 		
