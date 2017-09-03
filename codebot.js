@@ -343,7 +343,7 @@ function CompileStatements(statements) {
 	var source_main_end = "";
 	
 	source_constants += "/* Compiled from CodeBot3, language by William Gardner of Team 6374 */\n";
-	source_constants += "/* For more info, see https://github.com/wg4568/CodeBot3 */\n";
+	source_constants += "/* For more info, see https://github.com/wg4568/CodeBot3/ */\n";
 
 	statements.forEach(function(statement) {
 		
