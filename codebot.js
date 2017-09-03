@@ -147,8 +147,8 @@ function ParseToTokens(raw) {
 	var tokens = [];
 	var i = 0;
 
-	raw = raw.replace("/*", "@");
-	raw = raw.replace("*/", "@");
+	raw = raw.split("/*").join("@");
+	raw = raw.split("*/").join("@");
 
 	while (i < raw.length) {
 		var start_char = raw[i];
@@ -234,6 +234,14 @@ function ParseToTokens(raw) {
 			nxt.value *= -1;
 			nxt.raw = tok.raw + nxt.raw;
 			tokens.splice(k, 1);
+		}
+	}
+	
+	for (var j = 0; j < tokens.length; j++) {
+		var tokn = tokens[j];
+
+		if (tokn instanceof Token.Comment) {
+			tokens.splice(j, 1);
 		}
 	}
 
