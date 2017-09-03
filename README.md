@@ -233,6 +233,7 @@ When the compiler is in competition mode, any function named `auton` will be cal
  * Putting a *pause* command in the *frame* function is a bad idea. There are very few cases when this will work out for you.
  * While you can put a comma at the end of the last statement in a {} block, it is not required. The same goes for semicolons.
  * As of writing this, CodeBot3 has no syntax validation. It simply expects you to write correctly. Screwing up your syntax will either lead to a scary JavaScript error, or code that simply doesn't work.
+ * Comments can be written using /\* and \*/ syntax. Anything between those symbols will be ignored.
 
 
 ## Example Script
@@ -240,16 +241,20 @@ When the compiler is in competition mode, any function named `auton` will be cal
 The following code describes a four-motor base, and maps two analog inputs to the left and right sides. It also multiplies the input value by $move_multiplier for easy reconfiguring.
 
 ```
+/* Motor definitions */
 motor front_left_base  { port 6 };
 motor back_left_base   { port 5 };
 motor front_right_base { port 7, reversed true };
 motor back_right_base  { port 8, reversed true };
 
+/* Input definitions */
 input left_joystick  { type analog, port 1 };
 input right_joystick { type analog, port 3 };
 
+/* Variable definitions */
 variable move_multiplier { value 1.0 };
 
+/* Sets base speed to first two arguments */ 
 function set_base {
 	set front_left_base  $0 * $move_multiplier,
 	set back_left_base   $0 * $move_multiplier,
@@ -257,6 +262,7 @@ function set_base {
 	set back_right_base  $1 * $move_multiplier
 };
 
+/* Call set_base every frame, with inputs as arguments */
 function frame {
 	call set_base $left_joystick $right_joystick
 };
