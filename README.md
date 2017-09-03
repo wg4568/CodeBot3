@@ -8,7 +8,7 @@ Revision three of CodeBot, now in JavaScript! You can find all the documentation
 motor <MOTOR_NAME> {
 	port <PORT_NUM>,
 	type <MOTOR_TYPE>,
-    reversed <REVERSED>
+	reversed <REVERSED>
 };
 ```
 
@@ -51,7 +51,7 @@ Once an input is defined, you can access it's value from anywhere using the $ in
 ```
 input arm_up {
 	type digital,
-    port 8U
+	port 8U
 };
 ```
 
@@ -201,8 +201,8 @@ Lets say we want to assign each argument (100, 35 and 99) to a motor speed. We w
 ```
 function my_func {
 	set some_motor $0,
-    set another_motor $1,
-    set last_motor $2
+	set another_motor $1,
+	set last_motor $2
 };
 ```
 
