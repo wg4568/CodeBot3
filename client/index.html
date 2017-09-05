@@ -1,0 +1,42 @@
+<title>CodeBot3</title>
+<script src="ace/ace.js" type="text/javascript" ></script>
+<script src="res/codebot.js" type="text/javascript" ></script>
+<link rel="stylesheet" href="res/style.css">
+
+<div id="editor">
+/* Motor definitions */
+motor front_left_base  { port 6 };
+motor back_left_base   { port 5 };
+motor front_right_base { port 7, reversed true };
+motor back_right_base  { port 8, reversed true };
+
+/* Input definitions */
+input left_joystick  { type analog, port 1 };
+input right_joystick { type analog, port 3 };
+
+/* Variable definitions */
+variable move_multiplier { value 1.0 };
+
+/* Sets base speed to first two arguments */
+function set_base {
+	set front_left_base  $0 * $move_multiplier,
+	set back_left_base   $0 * $move_multiplier,
+	set front_right_base $1 * $move_multiplier,
+	set back_right_base  $1 * $move_multiplier
+};
+
+/* Call set_base every frame, with inputs as arguments */
+function frame {
+	call set_base $left_joystick $right_joystick
+};
+</div>
+
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+	editor.setShowPrintMargin(false);
+    // editor.getSession().setMode("ace/mode/javascript");
+	editor.setOptions({
+		fontSize: "12pt"
+	});
+</script>
