@@ -1,10 +1,10 @@
 <title>CodeBot3</title>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="ace/ace.js" type="text/javascript" ></script>
 <script src="res/codebot.js" type="text/javascript" ></script>
 <link rel="stylesheet" href="res/style.css">
 
-<div id="editor">
-/* Motor definitions */
+<div id="editor">/* Motor definitions */
 motor front_left_base  { port 6 };
 motor back_left_base   { port 5 };
 motor front_right_base { port 7, reversed true };
@@ -31,12 +31,75 @@ function frame {
 };
 </div>
 
+<div id="resize"></div>
+
+<textarea id="output" spellcheck="false">Press CTRL+B to compile code
+You can resize this window by dragging the above bar</textarea>
+
 <script>
     var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
+	var ctrl_pressed = false;
+	var dragging_line = false;
+	var mouse_y = 0;
+	var resize_accuracy = 4;
+
+	function set_output_height(height) {
+		document.documentElement.style.setProperty("--output-height", height);
+	}
+
+	function get_output_height() {
+		return parseInt(getComputedStyle(document.body).getPropertyValue("--output-height"));
+	}
+
+	function get_dist_to_line() {
+		return $(document).height() - mouse_y - get_output_height();
+	}
+
+	$(document).mousemove(function(e){
+		mouse_y = e.pageY;
+
+		if (dragging_line) {
+			set_output_height($(document).height() - mouse_y);
+		}
+	});
+
+	$(document).mousedown(function(event) {
+		var dist = get_dist_to_line();
+
+		if (Math.abs(dist) < resize_accuracy) {
+			dragging_line = true;
+		}
+	});
+
+	$(document).mouseup(function(event) {
+		dragging_line = false;
+	});
+
+	$(document).keydown(function(event) {
+		if (event.keyCode == 17 || event.keyCode == 91) ctrl_pressed = true;
+	}).keyup(function(event) {
+		if (event.keyCode == 17 || event.keyCode == 91) ctrl_pressed = false;
+	});
+
+    // editor.setTheme("ace/theme/monokai");
 	editor.setShowPrintMargin(false);
     // editor.getSession().setMode("ace/mode/javascript");
 	editor.setOptions({
 		fontSize: "12pt"
 	});
+
+	$("#resize").click(function(event) {
+		console.log("DRAG");
+	})
+
+	$("#editor").keydown(function(event) {
+		if (ctrl_pressed && (event.keyCode == 66)) {
+			var value = editor.getValue();
+			var robotc = CodeBot3(value);
+			$("#output").val(robotc);
+		}
+	});
+
+	$("#editor").bind("input propertychange", function() {});
+
 </script>
